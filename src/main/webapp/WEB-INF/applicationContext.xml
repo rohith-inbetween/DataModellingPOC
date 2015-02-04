@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/jdbc 
+						http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+						http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-2.5.xsd
+						http://www.springframework.org/schema/data/jpa
+                        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/stage" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+		
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<context:component-scan base-package="com.cs.staging" />
+	
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="showSql" value="true"></property>
+		<property name="generateDdl" value="true"></property>
+		<property name="database" value="MYSQL"></property>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="packagesToScan" value="com.cs.*" />
+	</bean>
+
+	<bean id="entityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
+				<entry key="hibernate.format_sql" value="true" />
+				<entry key="hibernate.use_sql_comments" value="false" />
+				<entry key="hibernate.show_sql" value="true" />
+				<entry key="hibernate.search.default.indexBase" value="/var/lucene/indexes" />
+			</map>
+		</property>
+	</bean>
+	
+	<jpa:repositories base-package="com.cs.*"
+		factory-class="com.cs.staging.repository.base.BaseRepositoryFactoryBean" />
+	
+	<util:list id="sourceTables" value-type="java.lang.Class">
+    	<value>com.cs.staging.interactor.source.entity.ArticleDataFile</value>
+    	<value>com.cs.staging.interactor.source.entity.AttributeDataFile</value>
+    	<value>com.cs.staging.interactor.source.entity.ReferenceDataFile</value>
+    	<value>com.cs.staging.interactor.source.entity.SubtableDataFile</value>
+    	<value>com.cs.staging.interactor.source.entity.ValueListDataFile</value>
+	</util:list>
+</beans>
