@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.compiletest.TestDemo;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/applicationContext.xml" })
 //@Transactional
@@ -18,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestCreateTable {
 
 	@Test
-	public void test() throws SQLException{
+	public void test() throws Exception{
 		
 		Configuration config = new Configuration();
 		Properties props = new Properties();
@@ -27,7 +29,10 @@ public class TestCreateTable {
 		  props.put(Environment.DRIVER,"com.mysql.jdbc.Driver");
 		  props.put(Environment.USER,"root");
 		  props.put(Environment.PASS,"");
-		  config.addAnnotatedClass(TableToBeAdded.class);
+		  TestDemo.compile("src/dynamicJava/TableToBeAdded.java");
+		  TestDemo.addPath("src/createdClasses");
+		  Class tableToAdd = Class.forName("com.hibernatetest.entity.TableToBeAdded");
+		  config.addAnnotatedClass(tableToAdd);
 		  config.addProperties(props);
 		  SchemaUpdate update=new SchemaUpdate(config);
 		  update.execute(true, true);

@@ -10,31 +10,27 @@ import com.sun.tools.javac.Main;
 public class TestDemo {
 	
 	public static void main(String args[])throws Exception{
-		/*Scanner sc = new Scanner(System.in);
-		String txt = sc.next();*/
+		if(compile("src/dynamicJava/CompileIt.java")){
+			loadClass();
+		}
 		
-		
+	}
+	
+	public static boolean compile(String fileName) throws Exception{
 		int errorCode = Main.compile(new String[] {
 				"-d","src/createdClasses/",
-	            "src/dynamicJava/CompileIt.java" });
+				fileName});
 		if(errorCode == 0){
 			System.out.println("Compiled Succesfully");
-			loadClass();
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
 	public static void loadClass()throws Exception{
-		// The dir contains the compiled classes. 
-//		File classesDir = new File("src/createdClasses/");
-
-		// The parent classloader 
-//		ClassLoader parentLoader = ClassLoader.getSystemClassLoader();
-		
-//		URLClassLoader loader1 = new URLClassLoader( new URL[] { classesDir.toURI().toURL() }, parentLoader);
-		
 		addPath("src/createdClasses/");
 		Class cls1 = Class.forName("com.compiletest.CompileIt");
-//		Class cls1 = loader1.loadClass("com.compiletest.CompileIt");
 		Object obj = cls1.newInstance();
 		obj.getClass().getMethod("sayHello").invoke(obj);
 	}
