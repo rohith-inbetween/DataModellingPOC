@@ -24,7 +24,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/stage" />
+		<property name="url" value="jdbc:mysql://localhost:3306/datamodelling" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
 	</bean>
@@ -33,7 +33,7 @@
 		
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<context:component-scan base-package="com.cs.staging" />
+	<context:component-scan base-package="com.hibernatetest" />
 	
 	<bean id="jpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -46,7 +46,7 @@
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-		<property name="packagesToScan" value="com.cs.*" />
+		<property name="packagesToScan" value="com.hibernatetest.*" />
 	</bean>
 
 	<bean id="entityManager"
@@ -64,14 +64,7 @@
 		</property>
 	</bean>
 	
-	<jpa:repositories base-package="com.cs.*"
-		factory-class="com.cs.staging.repository.base.BaseRepositoryFactoryBean" />
-	
-	<util:list id="sourceTables" value-type="java.lang.Class">
-    	<value>com.cs.staging.interactor.source.entity.ArticleDataFile</value>
-    	<value>com.cs.staging.interactor.source.entity.AttributeDataFile</value>
-    	<value>com.cs.staging.interactor.source.entity.ReferenceDataFile</value>
-    	<value>com.cs.staging.interactor.source.entity.SubtableDataFile</value>
-    	<value>com.cs.staging.interactor.source.entity.ValueListDataFile</value>
-	</util:list>
+	<!-- <jpa:repositories base-package="com.cs.*"
+		factory-class="com.cs.staging.repository.base.BaseRepositoryFactoryBean" /> -->
+
 </beans>

@@ -17,16 +17,16 @@
 	<mvc:annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
 
-	<context:component-scan base-package="com.cs.staging" />
+	<!-- <context:component-scan base-package="com.cs.staging" /> -->
 	
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
 		<property name="basePackage" value="com.cs.staging" />
-	</bean>
+	</bean> -->
 	
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -34,7 +34,7 @@
 					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	
 </beans>
