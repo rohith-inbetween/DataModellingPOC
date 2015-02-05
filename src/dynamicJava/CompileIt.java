@@ -1,3 +1,4 @@
+package com.compiletest;
 
 public class CompileIt implements Parent {
 	public CompileIt() {

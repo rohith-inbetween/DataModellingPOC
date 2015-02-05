@@ -1,6 +1,10 @@
+package com.compiletest;
+
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+
+import com.sun.tools.javac.Main;
 
 public class TestDemo {
 	
@@ -9,9 +13,9 @@ public class TestDemo {
 		String txt = sc.next();*/
 		
 		
-		int errorCode = com.sun.tools.javac.Main.compile(new String[] {
-				"-d", "D:/TestSpring/TestCompile/classes",
-	            "CompileIt.java" });
+		int errorCode = Main.compile(new String[] {
+				"-d","src/createdClasses/",
+	            "src/dynamicJava/CompileIt.java" });
 		if(errorCode == 0){
 			System.out.println("Compiled Succesfully");
 			loadClass();
@@ -26,7 +30,7 @@ public class TestDemo {
 		ClassLoader parentLoader = ClassLoader.getSystemClassLoader();
 
 		URLClassLoader loader1 = new URLClassLoader( new URL[] { classesDir.toURI().toURL() }, parentLoader);
-		Class cls1 = Class.forName("CompileIt");
+		Class cls1 = Class.forName("com.compiletest.CompileIt");
 //		Class cls1 = loader1.loadClass("CompileIt");
 		Object obj = cls1.newInstance();
 		obj.getClass().getMethod("sayHello").invoke(obj);
