@@ -1,4 +1,4 @@
-package com.codeGenerator;
+package com.datamodelling.interactor.model;
 
 public class Property {
 	

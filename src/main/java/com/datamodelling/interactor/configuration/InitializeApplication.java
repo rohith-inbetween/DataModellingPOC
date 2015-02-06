@@ -3,8 +3,6 @@ package com.datamodelling.interactor.configuration;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,7 @@ public class InitializeApplication {
 	@Autowired
 	String generatedCodeFilePath;
 	
-	@PostConstruct
+//	@PostConstruct
 	public void compileGeneratedCode() {
 		File generatedCodeFolder = new File(generatedCodeFilePath);
 		File[] generatedCodes = generatedCodeFolder

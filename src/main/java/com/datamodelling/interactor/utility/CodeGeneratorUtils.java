@@ -1,70 +1,39 @@
-package com.codeGenerator.utils;
+package com.datamodelling.interactor.utility;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.codeGenerator.EntityClass;
-import com.codeGenerator.Property;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.datamodelling.interactor.model.EntityClass;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
+@Component
 public class CodeGeneratorUtils {
 	
-	public String generateCodeForEntity(EntityClass entityClass){
+	@Autowired
+	String defaultTemplatePath;
+	
+	public void generateCodeForEntity(EntityClass entityClass) throws IOException{
 		
 		MustacheFactory mf = new DefaultMustacheFactory();
 	    Mustache mustache;
 	    
-        mustache = mf.compile("src/templates/testTemplate.template");
+        mustache = mf.compile(defaultTemplatePath);
         StringWriter sw=new StringWriter();
         Map<String, Object> scope=new HashMap<String, Object>();
-        
-        /*List<Property> smallList = new ArrayList<Property>();
-        
-        smallList.add(new Property("long", "id"));
-        smallList.add(new Property("int", "id2"));
-        smallList.add(new Property("String", "name"));*/
-        
         scope.put("entityClass", entityClass);
-        
-        /*scope.put("EntityName", "Product1");
-        scope.put("condition", smallList);*/
-        
         FileWriter fw = null;
-        try {
-			fw = new FileWriter("src/templates/product1.java");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+		fw = new FileWriter("src/dynamicJava/"+ entityClass.getClassName() +".java");
         mustache.execute(fw, scope);
-        try {
-			fw.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        try {
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return fw.toString();
-        
+		fw.flush();
+		fw.close();
 	}
 	
 	/*private String renderMustacheContent() throws IOException {

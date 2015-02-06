@@ -1,16 +1,19 @@
 package com.hibernatetest;
 
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.compiletest.TestDemo;
+import com.datamodelling.interactor.model.EntityClass;
+import com.datamodelling.interactor.model.Property;
+import com.datamodelling.interactor.utility.CodeGeneratorUtils;
+import com.datamodelling.interactor.utility.Compiler;
+import com.datamodelling.interactor.utility.CreateTable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/applicationContext.xml" })
@@ -18,23 +21,33 @@ import com.compiletest.TestDemo;
 //@TransactionConfiguration(defaultRollback = false)
 public class TestCreateTable {
 
+	@Autowired
+	CodeGeneratorUtils codeGenerator;
+	
+	@Autowired
+	Compiler compiler;
+	
+	@Autowired
+	CreateTable tableCreator;
+	
+	
 	@Test
-	public void test() throws Exception{
+	public void integrationTest() throws Exception{
+		EntityClass entityClass = new EntityClass();
+		entityClass.setClassName("TestEntity111");
+		List<Property> properties = new ArrayList<Property>();
+        properties.add(new Property("Long", "id", true));
+        properties.add(new Property("String", "label", false));
+        properties.add(new Property("String", "name", false));
+        properties.add(new Property("Long", "type", false));
+        entityClass.setProperties(properties);
+        
+		codeGenerator.generateCodeForEntity(entityClass);
 		
-		/*Configuration config = new Configuration();
-		Properties props = new Properties();
-		  props.put(Environment.DIALECT,"org.hibernate.dialect.MySQLDialect");
-		  props.put(Environment.URL,"jdbc:mysql://localhost:3306/datamodelling");
-		  props.put(Environment.DRIVER,"com.mysql.jdbc.Driver");
-		  props.put(Environment.USER,"root");
-		  props.put(Environment.PASS,"");
-		  TestDemo.compile("src/dynamicJava/TableToBeAdded.java");
-		  TestDemo.addPath("src/createdClasses");
-		  Class tableToAdd = Class.forName("com.hibernatetest.entity.TableToBeAdded");
-		  config.addAnnotatedClass(tableToAdd);
-		  config.addProperties(props);
-		  SchemaUpdate update=new SchemaUpdate(config);
-		  update.execute(true, true);*/
+		compiler.compileCode("src/dynamicJava/" + entityClass.getClassName() + ".java");
+		compiler.addPath();
+		tableCreator.create(entityClass.getClassName());
+		
 	}
 	
 }

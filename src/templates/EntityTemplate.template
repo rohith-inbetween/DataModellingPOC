@@ -1,3 +1,5 @@
+package com.datamodelling.interactor.entity;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
