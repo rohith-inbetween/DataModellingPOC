@@ -1,0 +1,25 @@
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class {{entityClass.className}} {
+
+	{{#entityClass.properties}}
+	
+	{{#isPropertyID}}
+	@Id
+	private {{propertyType}} {{propertyName}};
+	{{/isPropertyID}}
+	{{^isPropertyID}}
+	private {{propertyType}} {{propertyName}};
+	{{/isPropertyID}}
+
+	public {{propertyType}} get{{methodName}} () {
+		return this.{{propertyName}};
+	}
+	
+	public void set{{methodName}} ({{propertyType}} {{propertyName}}){
+		this.{{propertyName}} = {{propertyName}};
+	}
+	{{/entityClass.properties}}
+}
