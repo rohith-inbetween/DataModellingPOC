@@ -33,12 +33,18 @@
 		compile "mysql:mysql-connector-java:5.1.6"
 		compile 'org.codehaus.jackson:jackson-core-asl:1.9.9'
 		compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.9'
+		compile files("${System.properties['java.home']}/../lib/tools.jar")
+	}
+
+
+	sourceSets {
+    	generated {
+	        java {
+	            srcDirs = ['src/generatedClasses']
+	        }
+    	}
 	}
 	
-	sourceSets{
-		test.java.srcDirs = ['src/test/unittest']
-	}
-	
-	
+		
 
 

@@ -1,6 +1,5 @@
 package com.hibernatetest;
 
-import java.sql.SQLException;
 import java.util.Properties;
 
 import org.hibernate.cfg.Configuration;
@@ -22,7 +21,7 @@ public class TestCreateTable {
 	@Test
 	public void test() throws Exception{
 		
-		Configuration config = new Configuration();
+		/*Configuration config = new Configuration();
 		Properties props = new Properties();
 		  props.put(Environment.DIALECT,"org.hibernate.dialect.MySQLDialect");
 		  props.put(Environment.URL,"jdbc:mysql://localhost:3306/datamodelling");
@@ -35,7 +34,7 @@ public class TestCreateTable {
 		  config.addAnnotatedClass(tableToAdd);
 		  config.addProperties(props);
 		  SchemaUpdate update=new SchemaUpdate(config);
-		  update.execute(true, true);
+		  update.execute(true, true);*/
 	}
 	
 }
