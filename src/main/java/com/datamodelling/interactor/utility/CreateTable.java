@@ -1,5 +1,6 @@
 package com.datamodelling.interactor.utility;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.hibernate.cfg.Configuration;
@@ -21,13 +22,15 @@ public class CreateTable {
 		  props.put(Environment.PASS,"");
 		  Class tableToAdd;
 		try {
-            System.out.println("Path : "+System.getProperty("java.class.path"));
+			final File f = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+            System.out.println("Path : "+f.getAbsolutePath());
             
-            tableToAdd = Class.forName("com.datamodelling.interactor.entity." + entityName, true, this.getClass().getClassLoader());
+            tableToAdd = Class.forName("com.datamodelling.interactor.entity." + entityName);
 			config.addAnnotatedClass(tableToAdd);
 			config.addProperties(props);
 			SchemaUpdate update=new SchemaUpdate(config);
 			update.execute(true, true);
+			
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class not Found!" + e);
 		}

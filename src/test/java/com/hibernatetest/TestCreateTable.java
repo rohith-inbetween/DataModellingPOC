@@ -44,10 +44,10 @@ public class TestCreateTable {
         
 		codeGenerator.generateCodeForEntity(entityClass);
 		compiler.compileCode("src/dynamicJava/" + entityClass.getClassName() + ".java");
-//        compiler.addPath();
+        compiler.addPath();
         codeGenerator.generateCodeForRepository(entityClass);
         compiler.compileCode("src/dynamicJava/I" + entityClass.getClassName() + "Repository.java");
-//		compiler.addPath();
+		compiler.addPath();
 
 		tableCreator.create(entityClass.getClassName());
 		
