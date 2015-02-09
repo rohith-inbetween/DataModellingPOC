@@ -1,0 +1,10 @@
+package com.datamodelling.interactor.entity;
+
+import org.springframework.stereotype.Repository;
+import com.datamodelling.store.repository.base.IBaseRepository;
+//import com.datamodelling.interactor.entity.{{entityClass.className}};
+
+@Repository
+public interface I{{entityClass.className}}Repository extends IBaseRepository<{{entityClass.className}}, {{dataTypeOfEntityID}}>{
+
+}

@@ -2,7 +2,6 @@ package com.datamodelling.interactor.utility;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.datamodelling.interactor.model.EntityClass;
+import com.datamodelling.interactor.model.Property;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -18,22 +18,49 @@ import com.github.mustachejava.MustacheFactory;
 public class CodeGeneratorUtils {
 	
 	@Autowired
-	String defaultTemplatePath;
+	String defaultEntityTemplatePath;
+	
+	@Autowired
+	String defaultRepositoryTemplatePath;
 	
 	public void generateCodeForEntity(EntityClass entityClass) throws IOException{
 		
-		MustacheFactory mf = new DefaultMustacheFactory();
+		MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 	    Mustache mustache;
 	    
-        mustache = mf.compile(defaultTemplatePath);
-        StringWriter sw=new StringWriter();
-        Map<String, Object> scope=new HashMap<String, Object>();
+        mustache = mustacheFactory.compile(defaultEntityTemplatePath);
+        Map<String, Object> scope = new HashMap<String, Object>();
         scope.put("entityClass", entityClass);
-        FileWriter fw = null;
-		fw = new FileWriter("src/dynamicJava/"+ entityClass.getClassName() +".java");
-        mustache.execute(fw, scope);
-		fw.flush();
-		fw.close();
+        FileWriter fileWriter;
+		fileWriter = new FileWriter("src/dynamicJava/"+ entityClass.getClassName() +".java");
+        mustache.execute(fileWriter, scope);
+		fileWriter.flush();
+		fileWriter.close();
+	}
+	
+	public void generateCodeForRepository(EntityClass entityClass) throws IOException{
+		
+		MustacheFactory mustacheFactory = new DefaultMustacheFactory();
+		Mustache mustache;
+		
+		mustache = mustacheFactory.compile(defaultRepositoryTemplatePath);
+		Map<String, Object> scope = new HashMap<String, Object>();
+		scope.put("entityClass", entityClass);
+		
+		for (Property property : entityClass.getProperties()) {
+			if(property.getIsPropertyID()){
+				scope.put("dataTypeOfEntityID", property.getPropertyType());
+				break;
+			}
+		}
+		
+		FileWriter fileWriter = null;
+		fileWriter = new FileWriter("src/dynamicJava/I" + entityClass.getClassName() + "Repository.java");
+		
+		mustache.execute(fileWriter, scope);
+		
+		fileWriter.flush();
+		fileWriter.close();		
 	}
 	
 	/*private String renderMustacheContent() throws IOException {

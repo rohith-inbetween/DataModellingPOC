@@ -21,13 +21,15 @@ public class CreateTable {
 		  props.put(Environment.PASS,"");
 		  Class tableToAdd;
 		try {
-			tableToAdd = Class.forName("com.datamodelling.interactor.entity." + entityName);
+            System.out.println("Path : "+System.getProperty("java.class.path"));
+            
+            tableToAdd = Class.forName("com.datamodelling.interactor.entity." + entityName, true, this.getClass().getClassLoader());
 			config.addAnnotatedClass(tableToAdd);
 			config.addProperties(props);
 			SchemaUpdate update=new SchemaUpdate(config);
 			update.execute(true, true);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class not Found!");
+			System.out.println("Class not Found!" + e);
 		}
 		
 	}

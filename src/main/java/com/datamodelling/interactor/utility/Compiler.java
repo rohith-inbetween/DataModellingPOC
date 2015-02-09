@@ -17,7 +17,9 @@ public class Compiler {
 	String compiledGeneratedCodeFilePath;
 	
 	public boolean compileCode(String fileName){
-		int errorCode = Main.compile(new String[] {
+        File abc = new File("src/generatedClasses/");
+        int errorCode = Main.compile(new String[] {
+                "-cp",System.getProperty("java.class.path") + ";" + abc.getAbsolutePath(),
 				"-d",compiledGeneratedCodeFilePath,
 				fileName});
 		if(errorCode == 0){

@@ -72,8 +72,12 @@
 		<constructor-arg  value = "src/generatedClasses/" />
 	</bean>
 	
-	<bean id = "defaultTemplatePath" class="java.lang.String" >
+	<bean id = "defaultEntityTemplatePath" class="java.lang.String" >
 		<constructor-arg  value = "src/templates/EntityTemplate.template" />
+	</bean>
+	
+	<bean id = "defaultRepositoryTemplatePath" class="java.lang.String" >
+		<constructor-arg  value = "src/templates/RepositoryTemplate.template" />
 	</bean>
 	
 	<!-- <jpa:repositories base-package="com.cs.*"

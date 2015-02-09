@@ -34,7 +34,7 @@ public class TestCreateTable {
 	@Test
 	public void integrationTest() throws Exception{
 		EntityClass entityClass = new EntityClass();
-		entityClass.setClassName("TestEntity111");
+		entityClass.setClassName("TestEntity1");
 		List<Property> properties = new ArrayList<Property>();
         properties.add(new Property("Long", "id", true));
         properties.add(new Property("String", "label", false));
@@ -43,9 +43,12 @@ public class TestCreateTable {
         entityClass.setProperties(properties);
         
 		codeGenerator.generateCodeForEntity(entityClass);
-		
 		compiler.compileCode("src/dynamicJava/" + entityClass.getClassName() + ".java");
-		compiler.addPath();
+//        compiler.addPath();
+        codeGenerator.generateCodeForRepository(entityClass);
+        compiler.compileCode("src/dynamicJava/I" + entityClass.getClassName() + "Repository.java");
+//		compiler.addPath();
+
 		tableCreator.create(entityClass.getClassName());
 		
 	}
