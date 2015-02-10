@@ -3,6 +3,7 @@ package com.hibernatetest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.datamodelling.interactor.operation.SaveEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,9 @@ public class TestCreateTable {
 	@Autowired
 	CreateTable tableCreator;
 	
-	
+	@Autowired
+    SaveEntity saveEntity;
+
 	@Test
 	public void integrationTest() throws Exception{
 		EntityClass entityClass = new EntityClass();
@@ -52,5 +55,10 @@ public class TestCreateTable {
 		tableCreator.create(entityClass.getClassName());
 		
 	}
+
+    @Test
+    public void CRUDTest(){
+        saveEntity.execute();
+    }
 	
 }

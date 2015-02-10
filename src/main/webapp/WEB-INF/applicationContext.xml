@@ -46,7 +46,7 @@
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-		<property name="packagesToScan" value="com.hibernatetest.*" />
+		<property name="packagesToScan" value="com.datamodelling.interactor.entity" />
 	</bean>
 
 	<bean id="entityManager"
@@ -80,7 +80,7 @@
 		<constructor-arg  value = "src/templates/RepositoryTemplate.template" />
 	</bean>
 	
-	<!-- <jpa:repositories base-package="com.cs.*"
-		factory-class="com.cs.staging.repository.base.BaseRepositoryFactoryBean" /> -->
+	 <jpa:repositories base-package="com.datamodelling.interactor.entity"
+		factory-class="com.datamodelling.store.repository.base.BaseRepositoryFactoryBean" />
 
 </beans>

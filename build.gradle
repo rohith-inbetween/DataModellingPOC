@@ -41,7 +41,7 @@
 	sourceSets {
     	generated {
 	        java {
-	            srcDirs = ['src/generatedClasses']
+	            srcDirs = ['src/generatedClasses', 'src/dynamicJava']
 	        }
     	}
 	}
